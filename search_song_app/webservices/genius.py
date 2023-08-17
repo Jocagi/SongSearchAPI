@@ -1,15 +1,13 @@
 import requests
 import urllib.parse
-from .song import Song
+from .song import SongWS
+from .globals import GENIUS_CLIENT_ID, GENIUS_CLIENT_SECRET
 
 #Funcion para obtener token de genius
 def get_token_genius():
         # Se obtienen las credenciales de la aplicacion de genius
-        #client_id = os.getenv("GENIUS_CLIENT_ID")
-        #client_secret = os.getenv("GENIUS_CLIENT_SECRET")
-        
-        client_id = ""
-        client_secret = ""
+        client_id = GENIUS_CLIENT_ID
+        client_secret = GENIUS_CLIENT_SECRET
         
         # Se realiza la peticion a la API de genius para obtener el token de acceso
         response = requests.post('https://api.genius.com/oauth/token',
@@ -21,7 +19,7 @@ def get_token_genius():
         return token
 
 #Funcion para buscar una cancion en la API de Genius
-def search_song_genius(song_name):
+def search_genius(song_name):
         #Se obtiene el token de acceso
         token = get_token_genius()
         # Se codifica el nombre de la cancion para que pueda ser utilizado en la URL
@@ -44,7 +42,7 @@ def search_song_genius(song_name):
                 song_response_json = song_response.json()
                 songinfo = song_response_json["response"]["song"]
                 # Se crea un objeto de tipo Song con la informacion de la cancion
-                songObject = Song(
+                songObject = SongWS(
                     songinfo.get('title', 'N/A') or 'N/A',
                     songinfo.get('id', 'N/A') or 'N/A',
                     (songinfo.get('album', {}) or {}).get('name', 'N/A') or 'N/A',

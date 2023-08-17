@@ -1,2 +1,5 @@
 django
 requests
+python-decouple
+python-dotenv
+djangorestframework

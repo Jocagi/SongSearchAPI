@@ -1,9 +1,9 @@
 import requests
 import urllib.parse
-from .song import Song
+from .song import SongWS
 
 # Busca una cancion en la API de itunes
-def search_song_itunes(song_name):
+def search_itunes(song_name):
     # Se codifica el nombre de la cancion para que pueda ser enviado en la url
     song_name = urllib.parse.quote(song_name)
     # Se realiza la peticion a la API de itunes
@@ -17,7 +17,7 @@ def search_song_itunes(song_name):
     # Se recorre la lista de canciones
     for song in songs:
         # Se crea una instancia de la clase Song con los datos de la cancion
-        song_object = Song(
+        song_object = SongWS(
             song.get('trackName', 'N/A'),
             song.get('trackId', 'N/A'),
             song.get('collectionName', 'N/A'),

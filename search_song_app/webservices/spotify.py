@@ -1,16 +1,14 @@
 import requests
 import base64
 import urllib.parse
-from .song import Song
+from .song import SongWS
+from .globals import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
 
 # Obtiene el token de acceso de spotify
 def get_token_spotify():
     # Se obtienen las credenciales de la aplicacion de spotify
-    #client_id = os.environ.get("SPOTIFY_CLIENT_ID")
-    #client_secret = os.environ.get("SPOTIFY_CLIENT_SECRET")
-
-    client_id = ""
-    client_secret = ""
+    client_id = SPOTIFY_CLIENT_ID
+    client_secret = SPOTIFY_CLIENT_SECRET
 
     # Se codifican las credenciales en base64
     client_credentials = base64.b64encode((client_id + ":" + client_secret).encode("utf-8")).decode("utf-8")
@@ -24,13 +22,13 @@ def get_token_spotify():
     return token
 
 # Busca una cancion en spotify
-def search_song_spotify(song_name):
+def search_spotify(song_name):
     # Se obtiene el token de acceso
     token = get_token_spotify()
     # Se codifica el nombre de la cancion para que pueda ser utilizado en la URL
     song_name = urllib.parse.quote(song_name)
     # Se realiza la peticion a la API de spotify
-    search_response = requests.get("https://api.spotify.com/v1/search?q=" + song_name + "&type=track&limit=10", headers={"Authorization": "Bearer " + token})
+    search_response = requests.get("https://api.spotify.com/v1/search?q=" + song_name + "&type=track&limit=25", headers={"Authorization": "Bearer " + token})
     # Se obtiene el JSON de la respuesta
     search_response_json = search_response.json()
     # Se obtiene la lista de canciones de la respuesta
@@ -49,7 +47,7 @@ def search_song_spotify(song_name):
         # Se obtiene el genero del album de la cancion
         genre = album_response_json["genres"]
         # Se crea el objeto de la cancion
-        songObject = Song(
+        songObject = SongWS(
         song["name"],
         song["id"],
         song["album"]["name"],
