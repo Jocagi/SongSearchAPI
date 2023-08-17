@@ -3,3 +3,5 @@ requests
 python-decouple
 python-dotenv
 djangorestframework
+drf-yasg
+djangorestframework-simplejwt
