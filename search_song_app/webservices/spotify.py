@@ -45,17 +45,17 @@ def search_spotify(song_name):
         # Se obtiene el JSON de la respuesta
         album_response_json = album_response.json()
         # Se obtiene el genero del album de la cancion
-        genre = album_response_json["genres"]
+        genre = album_response_json.get("genres", ["N/A"])
         # Se crea el objeto de la cancion
         songObject = SongWS(
-        song["name"],
-        song["id"],
-        song["album"]["name"],
-        ", ".join([artist["name"] for artist in song["artists"]]),
-        song["album"]["images"][0]["url"],
-        song["album"]["release_date"][:4],
+        song.get("name", "N/A"),
+        song.get("id", "N/A"),
+        (song.get('album', {}) or {}).get('name', 'N/A') or 'N/A',
+        ", ".join([artist["name"] for artist in song["artists"]]) if len(song["artists"]) > 0 else "N/A",
+        song["album"]["images"][0]["url"] if len(song["album"]["images"]) > 0 else "N/A",
+        ((song.get('album', {}) or {}).get('release_date', 'N/A') or 'N/A')[:4] or 'N/A',
         genre,
-        song["duration_ms"],
+        song.get("duration_ms", "N/A"),
         "Spotify"
         )
         songs_list.append(songObject)
