@@ -7,6 +7,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
+import concurrent.futures
 
 class SearchSongsView(views.APIView):
 
@@ -40,7 +41,18 @@ class SearchSongsView(views.APIView):
 
         # Si no hay resultados en la base de datos, busca en los proveedores
         if not songs.exists():
-            songs = search_spotify(query) + search_itunes(query) + search_genius(query)
+    
+            # Busca en los proveedores de forma concurrente
+            def run_search(provider_func):
+                return provider_func(query)
+
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                spotify_future = executor.submit(run_search, search_spotify)
+                itunes_future = executor.submit(run_search, search_itunes)
+                genius_future = executor.submit(run_search, search_genius)
+
+            songs = spotify_future.result() + itunes_future.result() + genius_future.result()
+            #songs = search_spotify(query) + search_itunes(query) + search_genius(query)
 
             # Almacena los resultados en la base de datos
             for song_data in songs:
