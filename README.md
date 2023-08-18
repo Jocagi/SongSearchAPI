@@ -2,35 +2,26 @@
 
 ## Descripción
 
-El proyecto SongSearchAPI es una API que centraliza la búsqueda de canciones por nombre en diferentes proveedores (Spotify, iTunes y Genius). Este servicio permite a los usuarios buscar canciones fácilmente, permitiendo aplicar filtros por género y año de lanzamiento.
+El proyecto SongSearchAPI es una API que centraliza la búsqueda de canciones por nombre en diferentes proveedores (Spotify, iTunes y Genius). Este servicio permite a los usuarios buscar canciones fácilmente. Es posible aplicar filtros por género y año de lanzamiento de la canción.
 
 ## Prerrequisitos
-Para ejecutar el proyecto es necesario tener instalado Docker. Puedes descargarlo [aquí](https://www.docker.com/products/docker-desktop/).
+Para ejecutar el proyecto es necesario tener instalado Docker.
 
 ## Instrucciones de ejecución
 
 Para ejecutar el presente proyecto con Docker, sigue los siguientes pasos:
 
-1. Clona el repositorio.
+1. Clonar el repositorio.
 
-2. Modifica el archivo `.env` para agregar las claves de las API de los proveedores y una secret key:
+2. Modificar el archivo `.env` para agregar las claves de las API de los proveedores y una secret key.
 
-   ```bash
-   SECRET_KEY=<secret key>
-   SPOTIFY_CLIENT_ID=<Spotify client id>
-   SPOTIFY_CLIENT_SECRET=<Spotify client secret>
-   GENIUS_CLIENT_ID=<Genius client id>
-   GENIUS_CLIENT_SECRET=<Genius client secret>
-   DEBUG=True
-   ```
-
-3. Construye el contenedor de Docker:
+3. Construir el contenedor de Docker:
 
    ```bash
    docker build -t songsearchapi .
    ```
 
-4. Ejecuta el contenedor Docker:
+4. Ejecutar el contenedor Docker:
 
    ```bash
    docker run -p 8000:8000 songsearchapi
@@ -53,7 +44,7 @@ La definición de los endpoints puede encontrarse en: http://localhost:8000/api/
       "password": "user"
     }
     ```
-    ** Se ha definido un usuario por defecto en el Dockerfile, pueden crearse usuarios adicionales desde el panel de administración.
+    ** Confines de pruebas, se ha definido un usuario por defecto en el Dockerfile, pueden crearse usuarios adicionales desde el panel de administración (http://localhost:8000/admin/). Es recomendable cambiar la contraseña por defecto de los usuarios.
 
 - **Buscar canciones**
   - Utiliza el endpoint `/api/search` para buscar canciones.
@@ -92,4 +83,3 @@ La definición de los endpoints puede encontrarse en: http://localhost:8000/api/
     ```
 **Reemplazar `<token>` con el token real generado por `/api/token`
 
-Recuerda personalizar los valores de las claves de las API y la secret key en el archivo `.env`, y cambiar las contraseñas por defecto de los usuarios.
