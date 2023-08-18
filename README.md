@@ -5,7 +5,7 @@
 El proyecto SongSearchAPI es una API que centraliza la búsqueda de canciones por nombre en diferentes proveedores (Spotify, iTunes y Genius). Este servicio permite a los usuarios buscar canciones fácilmente, permitiendo aplicar filtros por género y año de lanzamiento.
 
 ## Prerrequisitos
-Para ejecutar el proyecto es necesario tener Docker instalado en tu sistema. Puedes descargarlo e instalarlo desde [aquí](https://www.docker.com/products/docker-desktop/).
+Para ejecutar el proyecto es necesario tener instalado Docker. Puedes descargarlo [aquí](https://www.docker.com/products/docker-desktop/).
 
 ## Instrucciones de ejecución
 
@@ -57,19 +57,30 @@ La definición de los endpoints puede encontrarse en: http://localhost:8000/api/
 
 - **Buscar canciones**
   - Utiliza el endpoint `/api/search` para buscar canciones.
-  - Realiza una petición GET con la siguiente estructura:
+  - Realiza una petición GET con el token generado en las cabeceras:
+
     ```bash
-    http://{endpoint}/api/search?query={canción}
+    http://{endpoint}/api/search?query={canción}&year={año}&genre={género}
     ```
-    Ejemplo:
+    Cabecera:
+    ```
+    Authorization: Bearer <token>
+    ```
+
+    *Ejemplo:*
     ```bash
     http://localhost:8000/api/search?query=Test
     ```
+    ```
+    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyMzE1NTIyLCJpYXQiOjE2OTIzMTUyMjIsImp0aSI6ImNkMTI4YjVlYjQ0OTRmNWFiYzFiOWMzOGI0ZDFiMTRkIiwidXNlcl9pZCI6M30.4hNOjWWxTVi7YeVFyJ0aG9_N_OiQfULUyMoma7BPdmc
+    ```
   - Es posible aplicar filtros agregando los parámetros "year" y "genre":
+
     ```bash
     http://{endpoint}/api/search/?query={canción}&year={año}&genre={género}
     ```
-    Ejemplos:
+    
+    *Ejemplos:*
     ```bash
     http://localhost:8000/api/search/?query=test&year=2018&genre=pop
     ```
@@ -79,5 +90,6 @@ La definición de los endpoints puede encontrarse en: http://localhost:8000/api/
     ```bash
     http://localhost:8000/api/search/?query=test&genre=pop
     ```
+**Reemplazar `<token>` con el token real generado por `/api/token`
 
-Recordar personalizar los valores de las claves de las API y la secret key en el archivo `.env`, y cambiar las contraseñas por defecto de los usuarios.
+Recuerda personalizar los valores de las claves de las API y la secret key en el archivo `.env`, y cambiar las contraseñas por defecto de los usuarios.
